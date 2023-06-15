@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Prizes\Prize;
+use App\Services\Prizes\PrizeWrapper;
 use Illuminate\Http\Request;
 
 class PrizeController extends Controller
@@ -11,15 +13,7 @@ class PrizeController extends Controller
      */
     public function index()
     {
-        return Prize::index();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return (new PrizeWrapper())->getAll();
     }
 
     /**
@@ -27,7 +21,7 @@ class PrizeController extends Controller
      */
     public function store(Request $request)
     {
-        return Prize::validate($request->id, $request->fields);
+        return (new PrizeWrapper())->getInstance($request->id)->validate($request->fields);
     }
 
     /**
@@ -35,30 +29,6 @@ class PrizeController extends Controller
      */
     public function show(string $prizeId)
     {
-        return Prize::get($prizeId);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return (new PrizeWrapper())->getInstance($prizeId)->getFields();
     }
 }
