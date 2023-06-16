@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\PrizeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/prizes', [PrizeController::class, 'index']);
-
-Route::get('/prize/{prizeId}', [PrizeController::class, 'show']);
