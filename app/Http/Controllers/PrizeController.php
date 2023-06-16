@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Prizes\Prize;
-use App\Services\Prizes\PrizeWrapper;
+use App\Services\PrizeWrapper;
 use Illuminate\Http\Request;
 
 class PrizeController extends Controller
@@ -13,15 +12,26 @@ class PrizeController extends Controller
      */
     public function index()
     {
-        return (new PrizeWrapper())->getAll();
+        try {
+            $result = (new PrizeWrapper())->getAll();
+            return response()->json(['status' => 'success', 'data' => $result], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 'failed', 'msg' => $th->getMessage()], 400);
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
+     * validate whether given values are correct.
      */
-    public function store(Request $request)
+    public function myValidate(Request $request)
     {
-        return (new PrizeWrapper())->getInstance($request->id)->validate($request->fields);
+        try {
+            (new PrizeWrapper())->getInstance($request->id)->validate($request->fields);
+            return response()->json(['status' => 'success', 'msg' => 'valid'], 200);
+        } catch (\Throwable $th) {
+            //TODO create a custom exception to make sure messages are safe to return!
+            return response()->json(['status' => 'failed', 'msg' => $th->getMessage()], 403);
+        }
     }
 
     /**
@@ -29,6 +39,11 @@ class PrizeController extends Controller
      */
     public function show(string $prizeId)
     {
-        return (new PrizeWrapper())->getInstance($prizeId)->getFields();
+        try {
+            $result = (new PrizeWrapper())->getInstance($prizeId)->getFields();
+            return response()->json(['status' => 'success', 'data' => $result], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 'failed', 'msg' => $th->getMessage()], 400);
+        }
     }
 }
