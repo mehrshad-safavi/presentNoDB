@@ -22,6 +22,8 @@ class PrizeWrapper
         $class = $classes->filter(function ($className) use ($prizeId) {
             return $className::ID == (int)$prizeId;
         });
+        throw_if($class->isEmpty(), new \Exception('id not found!', 403));
+
         return new ($class->first())();
     }
 
@@ -31,6 +33,6 @@ class PrizeWrapper
         foreach ($classes as $class) {
             $prizes[] = (new $class)->introduction();
         }
-        return $prizes;
+        return $prizes ?? [];
     }
 }
