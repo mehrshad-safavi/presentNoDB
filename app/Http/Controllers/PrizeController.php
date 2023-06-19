@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\Prize;
 use App\Services\PrizeWrapper;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class PrizeController extends Controller
     public function index()
     {
         try {
-            $result = (new PrizeWrapper())->getAll();
+            $result = PrizeWrapper::getAll();
             return response()->json(['status' => 'success', 'data' => $result], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'failed', 'msg' => $th->getMessage()], 400);
@@ -26,7 +27,7 @@ class PrizeController extends Controller
     public function myValidate(Request $request)
     {
         try {
-            (new PrizeWrapper())->getInstance($request->id)->validate($request->fields);
+            PrizeWrapper::getInstance($request->id)->validate($request->fields);
             return response()->json(['status' => 'success', 'msg' => 'valid'], 200);
         } catch (\Throwable $th) {
             //TODO create a custom exception to make sure messages are safe to return!
@@ -37,10 +38,10 @@ class PrizeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $prizeId)
+    public function show(Prize $prize)
     {
         try {
-            $result = (new PrizeWrapper())->getInstance($prizeId)->getFields();
+            $result = $prize->getFields();
             return response()->json(['status' => 'success', 'data' => $result], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 'failed', 'msg' => $th->getMessage()], 400);

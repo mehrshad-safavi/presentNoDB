@@ -27,10 +27,10 @@ class Gift extends Prize implements PrizeInterface
     }
     function setId(): void
     {
-        self::$id = self::ID;
+        $this->id = self::ID;
     }
     function setTitle(): void
     {
-        self::$title = self::TITLE;
+        $this->title = self::TITLE;
     }
 }

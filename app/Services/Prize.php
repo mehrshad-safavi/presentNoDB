@@ -4,8 +4,8 @@ namespace App\Services;
 
 abstract class Prize
 {
-    public static $id;
-    public static $title;
+    public $id;
+    public $title;
     protected Fields $fields;
 
     public function __construct()
@@ -23,8 +23,8 @@ abstract class Prize
     function introduction(): array
     {
         return [
-            'id' => self::$id,
-            'title' => self::$title,
+            'id' => $this->id,
+            'title' => $this->title,
         ];
     }
 

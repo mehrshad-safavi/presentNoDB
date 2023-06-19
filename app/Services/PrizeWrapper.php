@@ -2,37 +2,35 @@
 
 namespace App\Services;
 
-use App\Services\Prizes\BurnScore;
 use HaydenPierce\ClassFinder\ClassFinder;
 use Illuminate\Support\Collection;
 
 class PrizeWrapper
 {
+    private static $classes;
+
     /**
      * return an object of class located in App\Services\Prizes that matches the id
-     * we could have made the class singleton and register the prize classes in serviceProvider!
+     * we could have made the class singleton and register the prize classes in serviceProvider! Done :D
      */
-    function getClasses(): Collection
+    public static function getInstance($prizeId): object
     {
-        return collect(ClassFinder::getClassesInNamespace('App\Services\Prizes'));
-    }
-    function getInstance($prizeId): object
-    {
-        $classes = $this->getClasses();
-        $class = $classes->filter(function ($className) use ($prizeId) {
-            return $className::ID == (int)$prizeId;
-        });
-        throw_if($class->isEmpty(), new \Exception('id not found!', 403));
+        throw_if(!isset(self::$classes[$prizeId]), new \Exception('id not found!', 403));
 
-        return new ($class->first())();
+        return self::$classes[$prizeId];
     }
 
-    function getAll(): array
+    public static function getAll(): array
     {
-        $classes = $this->getClasses();
-        foreach ($classes as $class) {
-            $prizes[] = (new $class)->introduction();
+        // dd(self::$classes);
+        foreach (self::$classes as $id => $class) {
+
+            $prizes[] = ($class)->introduction();
         }
         return $prizes ?? [];
+    }
+    public static function setClasses($classes): void
+    {
+        self::$classes = $classes;
     }
 }
