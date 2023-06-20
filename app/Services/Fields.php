@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\UserFriendlyException;
+
 class Fields
 {
     protected array $fields;
@@ -32,7 +34,7 @@ class Fields
             }
         }
         if (!$validated) {
-            throw new \Exception("wrong name!", 1);
+            throw new UserFriendlyException("wrong name!", 1);
         }
     }
 }

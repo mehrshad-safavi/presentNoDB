@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Prize;
 use App\Services\PrizeWrapper;
 use Illuminate\Http\Request;
+use App\Exceptions\UserFriendlyException;
 
 class PrizeController extends Controller
 {
@@ -17,7 +18,7 @@ class PrizeController extends Controller
             $result = PrizeWrapper::getAll();
             return response()->json(['status' => 'success', 'data' => $result], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 'failed', 'msg' => $th->getMessage()], 400);
+            return response()->json(['status' => 'failed', 'msg' => 'something went wrong!'], $th->getCode());
         }
     }
 
@@ -30,8 +31,7 @@ class PrizeController extends Controller
             PrizeWrapper::getInstance($request->id)->validate($request->fields);
             return response()->json(['status' => 'success', 'msg' => 'valid'], 200);
         } catch (\Throwable $th) {
-            //TODO create a custom exception to make sure messages are safe to return!
-            return response()->json(['status' => 'failed', 'msg' => $th->getMessage()], 403);
+            return response()->json(['status' => 'failed', 'msg' => $th->getMessage()], $th->getCode());
         }
     }
 
@@ -44,7 +44,7 @@ class PrizeController extends Controller
             $result = $prize->getFields();
             return response()->json(['status' => 'success', 'data' => $result], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 'failed', 'msg' => $th->getMessage()], 400);
+            return response()->json(['status' => 'failed', 'msg' => 'something went wrong!'], $th->getCode());
         }
     }
 }

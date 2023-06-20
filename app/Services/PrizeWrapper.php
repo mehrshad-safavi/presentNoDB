@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use HaydenPierce\ClassFinder\ClassFinder;
-use Illuminate\Support\Collection;
+use App\Exceptions\UserFriendlyException;
 
 class PrizeWrapper
 {
@@ -15,14 +14,13 @@ class PrizeWrapper
      */
     public static function getInstance($prizeId): object
     {
-        throw_if(!isset(self::$classes[$prizeId]), new \Exception('id not found!', 403));
+        throw_if(!isset(self::$classes[$prizeId]), new UserFriendlyException('id not found!', 403));
 
         return self::$classes[$prizeId];
     }
 
     public static function getAll(): array
     {
-        // dd(self::$classes);
         foreach (self::$classes as $id => $class) {
 
             $prizes[] = ($class)->introduction();

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\UserFriendlyException;
+
 class Type extends PropertyObject
 {
     public const validTypes = [
@@ -9,24 +11,11 @@ class Type extends PropertyObject
         'list',
     ];
 
-    // private string $value;
-    // public function __construct(string $value)
-    // {
-    //     if (!in_array($value, self::validTypes)) {
-    //         throw new \Exception("Unsupported value Type!", 1);
-    //     }
-    //     $this->value = $value;
-    // }
-    // public function get()
-    // {
-    //     return $this->value;
-    // }
-
     public function validate($value, $items)
     {
         throw_if(
             $this->value  === 'list' && !in_array($value, array_keys($items)),
-            new \Exception('undefined item!', 403)
+            new UserFriendlyException('undefined item!', 403)
         );
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Validator as FacadesValidator;
+use App\Exceptions\UserFriendlyException;
 
 trait Validator
 {
@@ -29,7 +30,7 @@ trait Validator
             'value' => $rules
         ]);
         if ($validate->fails()) {
-            throw new \Exception(implode(',', $validate->errors()->all()), 1);
+            throw new UserFriendlyException(implode(',', $validate->errors()->all()), 1);
         }
     }
 }
