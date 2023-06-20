@@ -4,27 +4,43 @@ namespace App\Services\Prizes;
 
 use App\Services\Prize;
 use App\Services\PrizeInterface;
+use App\Services\Field;
+use App\Services\Fields;
+
 
 class Medallion extends Prize implements PrizeInterface
 {
     public const ID = 8;
     public const TITLE = 'مدال';
 
-    function provideFields(): array
+    function provideFields(): Fields
     {
-        return [
-            [
-                'type' => 'list',
-                'valueType' => 'numeric',
-                'name' => 'id',
-                'label' => 'شناسه',
-                'items' => [
-                    '1' => 'طلایی',
-                    '2' => 'نقره ای',
-                    '3' => 'برنزی',
-                ],
+        return new Fields([new Field([
+            'type' => 'list',
+            'valueType' => 'numeric',
+            'name' => 'id',
+            'label' => 'شناسه',
+            'items' => [
+                '1' => 'طلایی',
+                '2' => 'نقره ای',
+                '3' => 'برنزی',
             ],
-        ];
+
+        ])]);
+
+        // return [
+        //     [
+        //         'type' => 'list',
+        //         'valueType' => 'numeric',
+        //         'name' => 'id',
+        //         'label' => 'شناسه',
+        //         'items' => [
+        //             '1' => 'طلایی',
+        //             '2' => 'نقره ای',
+        //             '3' => 'برنزی',
+        //         ],
+        //     ],
+        // ];
     }
     function setId(): void
     {

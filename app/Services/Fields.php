@@ -6,11 +6,12 @@ class Fields
 {
     protected array $fields;
 
-    public function __construct($fields)
+    public function __construct(array $fields)
     {
-        foreach ($fields as $field) {
-            $this->fields[] = new Field($field);
-        }
+        $this->fields = $fields;
+        // foreach ($fields as $field) {
+        //     $this->fields[] = new Field($field);
+        // }
     }
 
     public function get()

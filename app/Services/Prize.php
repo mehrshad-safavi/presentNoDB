@@ -12,7 +12,8 @@ abstract class Prize
     {
         $this->setId();
         $this->setTitle();
-        $this->fields = new Fields($this->providefields());
+        $this->fields = $this->providefields();
+        // $this->fields = new Fields($this->providefields());
     }
 
     public function getFields(): array
